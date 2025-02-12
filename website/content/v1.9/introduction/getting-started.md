@@ -54,7 +54,8 @@ The latest ISO image can be found on the Github [Releases](https://github.com/si
 - ARM64: [https://github.com/siderolabs/talos/releases/download/{{< release >}}/metal-arm64.iso](https://github.com/siderolabs/talos/releases/download/{{< release >}}/metal-arm64.iso)
 
 When booted from the ISO, Talos will run in RAM and will not install to disk until provided a configuration.
-Thus, it is safe to boot any machine from the ISO.
+Thus, it is safe to boot any machine from the ISO. 
+This also means restarting the machine without applying a configuration will restart the process. 
 
 At this point, you should:
 
@@ -84,16 +85,18 @@ The endpoint should be formatted like:
 ## Configure Talos Linux
 
 When Talos boots without a configuration, such as when booting off the Talos ISO, it
-enters maintenance mode and waits for a configuration to be provided.
-
-> A configuration can be passed in on boot via kernel parameters or metadata servers.
-> See [Production Notes]({{< relref "prodnotes#configure-talos" >}}).
+enters maintenance mode and waits for a configuration to be provided.  
+> NOTE: Talos initially loads the OS to RAM, and only installs to disk after the configuration is applied. Removing the ISO and
 
 Unlike traditional Linux, Talos Linux is _not_ configured by SSHing to the server and issuing commands.
 Instead, the entire state of the machine is defined by a `machine config` file which is passed to the server.
 This allows machines to be managed in a declarative way, and lends itself to GitOps and modern operations paradigms.
+
 The state of a machine is completely defined by, and can be reproduced from, the machine configuration file.
 
+> A configuration can be passed in on boot via kernel parameters or metadata servers.
+> See [Production Notes]({{< relref "prodnotes#configure-talos" >}}).
+> 
 To generate the machine configurations for a cluster, run this command on the workstation where you installed `talosctl`:
 
 ```sh
